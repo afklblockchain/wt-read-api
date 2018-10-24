@@ -25,6 +25,15 @@ const validateHotelAddress = (req, res, next) => {
   next();
 };
 
+const validateAirlineAddress = (req, res, next) => {
+  const { airlineAddress } = req.params;
+  const { wt } = res.locals;
+  if (!wt.instance.dataModel.web3Instance.utils.checkAddressChecksum(airlineAddress)) {
+    return next(new HttpValidationError('airlineChecksum', 'Given airline address is not a valid Ethereum address. Must be a valid checksum address.', 'Checksum failed for hotel address.'));
+  }
+  next();
+};
+
 /**
  * Replace well-defined on-chain errors with the corresponding
  * HTTP errors.
@@ -76,10 +85,29 @@ const resolveHotel = async (req, res, next) => {
   }
 };
 
+/**
+ * Resolves a hotel from req.params.airlineAddress
+ */
+const resolveAirline = async (req, res, next) => {
+  if (!res.locals.wt) {
+    return next(new HttpInternalError('Bad middleware order.'));
+  }
+  let { airlineAddress } = req.params;
+  try {
+    res.locals.wt.airline = await res.locals.wt.index.getAirline(airlineAddress);
+    return next();
+  } catch (e) {
+    return next();
+    // return next(new Http404Error('airlineNotFound', 'Airline not found'));
+  }
+};
+
 module.exports = {
   injectWtLibs,
   validateHotelAddress,
+  validateAirlineAddress,
   handleOnChainErrors,
   handleDataFetchingErrors,
   resolveHotel,
+  resolveAirline,
 };

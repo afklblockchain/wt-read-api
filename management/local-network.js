@@ -1,6 +1,7 @@
 const TruffleContract = require('truffle-contract');
 const Web3 = require('web3');
 const WTIndexContract = require('@windingtree/wt-contracts/build/contracts/WTIndex');
+const WTAirlinesIndexContract = require('@afklblockchain/wt-contracts/build/contracts/WTIndex');
 
 const provider = new Web3.providers.HttpProvider('http://localhost:8545');
 const web3 = new Web3(provider);
@@ -33,6 +34,14 @@ const deployIndex = async () => {
     gas: 6000000,
   });
 };
+const deployAirlinesIndex = async () => {
+  const indexContract = getContractWithProvider(WTAirlinesIndexContract, provider);
+  const accounts = await web3.eth.getAccounts();
+  return indexContract.new({
+    from: accounts[0],
+    gas: 6000000,
+  });
+};
 
 const deployFullHotel = async (offChainDataAdapter, index, hotelDescription, ratePlans, availability) => {
   const accounts = await web3.eth.getAccounts();
@@ -58,7 +67,19 @@ const deployFullHotel = async (offChainDataAdapter, index, hotelDescription, rat
   return web3.utils.toChecksumAddress(registerResult.logs[0].args.hotel);
 };
 
+const deployAirline = async (dataUri, index) => {
+  const accounts = await web3.eth.getAccounts();
+
+  const registerResult = await index.registerAirline(dataUri, {
+    from: accounts[0],
+    gas: 6000000,
+  });
+  return web3.utils.toChecksumAddress(registerResult.logs[0].args.airline);
+};
+
 module.exports = {
   deployIndex,
+  deployAirlinesIndex,
   deployFullHotel,
+  deployAirline,
 };

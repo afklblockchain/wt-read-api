@@ -10,6 +10,7 @@ const config = require('./config');
 const { HttpError, HttpInternalError, Http404Error, HttpBadRequestError } = require('./errors');
 const { version } = require('../package.json');
 const { hotelsRouter } = require('./routes/hotels');
+const { airlinesRouter } = require('./routes/airlines');
 
 const swaggerDocument = YAML.load(path.resolve('./docs/swagger.yaml'));
 swaggerDocument.servers = [{ url: config.baseUrl }];
@@ -56,6 +57,7 @@ app.get('/', (req, res) => {
 
 // Router
 app.use(hotelsRouter);
+app.use(airlinesRouter);
 
 // 404 handler
 app.use('*', (req, res, next) => {

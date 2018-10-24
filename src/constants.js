@@ -20,6 +20,12 @@ const HOTEL_FIELDS = [
   'manager',
 ];
 
+const DEFAULT_AIRLINES_FIELDS = [
+  'id',
+  'name',
+  'address'
+];
+
 const DESCRIPTION_FIELDS = [
   'name',
   'description',
@@ -46,4 +52,5 @@ module.exports = {
   DEFAULT_HOTEL_FIELDS,
   DEFAULT_PAGE_SIZE,
   MAX_PAGE_SIZE,
+  DEFAULT_AIRLINES_FIELDS
 };
