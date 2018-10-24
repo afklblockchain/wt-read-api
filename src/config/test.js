@@ -1,5 +1,5 @@
 const winston = require('winston');
-const WtJsLibs = require('@windingtree/wt-js-libs');
+const WtJsLibs = require('@afklblockchain/wt-js-libs');
 const InMemoryAdapter = require('@windingtree/off-chain-adapter-in-memory');
 
 module.exports = {

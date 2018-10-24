@@ -1,4 +1,4 @@
-const wtJsLibs = require('@windingtree/wt-js-libs');
+const wtJsLibs = require('@afklblockchain/wt-js-libs');
 const { baseUrl } = require('../config');
 const {
   HttpValidationError,

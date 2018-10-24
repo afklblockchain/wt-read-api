@@ -1,4 +1,4 @@
-const WTLibs = require('@windingtree/wt-js-libs');
+const WTLibs = require('@afklblockchain/wt-js-libs');
 const wtJsLibs = require('../services/wt-js-libs');
 const { HttpBadGatewayError, HttpPaymentRequiredError,
   HttpValidationError, HttpForbiddenError,

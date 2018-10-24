@@ -1,6 +1,6 @@
 const TruffleContract = require('truffle-contract');
 const Web3 = require('web3');
-const WTIndexContract = require('@windingtree/wt-contracts/build/contracts/WTIndex');
+const WTIndexContract = require('@afklblockchain/wt-contracts/build/contracts/WTIndex');
 const WTAirlinesIndexContract = require('@afklblockchain/wt-contracts/build/contracts/WTIndex');
 
 const provider = new Web3.providers.HttpProvider('http://localhost:8545');
