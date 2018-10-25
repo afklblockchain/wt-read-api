@@ -1,4 +1,4 @@
-const WtJsLibs = require('@windingtree/wt-js-libs');
+const WtJsLibs = require('@afklblockchain/wt-js-libs');
 const SwarmAdapter = require('@windingtree/off-chain-adapter-swarm');
 const HttpAdapter = require('@windingtree/off-chain-adapter-http');
 

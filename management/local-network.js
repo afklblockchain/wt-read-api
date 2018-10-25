@@ -1,6 +1,6 @@
 const TruffleContract = require('truffle-contract');
 const Web3 = require('web3');
-const WTIndexContract = require('@windingtree/wt-contracts/build/contracts/WTIndex');
+const WTIndexContract = require('@afklblockchain/wt-contracts/build/contracts/WTIndex');
 const WTAirlinesIndexContract = require('@afklblockchain/wt-contracts/build/contracts/WTIndex');
 
 const provider = new Web3.providers.HttpProvider('http://localhost:8545');
@@ -60,7 +60,7 @@ const deployFullHotel = async (offChainDataAdapter, index, hotelDescription, rat
   indexFile.bookingUri = 'https://booking.example';
   const dataUri = await offChainDataAdapter.upload(indexFile);
 
-  const registerResult = await index.registerHotel(dataUri, {
+  const registerResult = await index.registerAirline(dataUri, {
     from: accounts[0],
     gas: 6000000,
   });
