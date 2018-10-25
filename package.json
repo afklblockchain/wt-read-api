@@ -40,7 +40,7 @@
     "express": "^4.16.3",
     "lodash": "^4.17.10",
     "morgan": "^1.9.0",
-    "ndc-adapter": "^1.0.2",
+    "ndc-adapter": "^1.0.6",
     "swagger-ui-express": "^4.0.0",
     "winston": "^3.0.0",
     "xml2json": "^0.11.2",
