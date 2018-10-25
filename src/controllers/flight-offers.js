@@ -36,6 +36,7 @@ const mapOffer = function (ndcOffer, flights, segments, od) {
   let offer = {
     id: ndcOffer.OfferID,
     price: ndcOffer.TotalPrice.DetailCurrencyPrice.Total.$t,
+    currency: ndcOffer.TotalPrice.DetailCurrencyPrice.Total.Code,
     origin: od.DepartureCode,
     destination: od.ArrivalCode,
     journeyTime: flight.Journey.Time,
