@@ -1,4 +1,5 @@
 const wtJsLibs = require('@afklblockchain/wt-js-libs');
+const constants = require("../constants")
 const { baseUrl } = require('../config');
 const {
   HttpValidationError,
@@ -6,8 +7,12 @@ const {
 } = require('../errors');
 const {
   DEFAULT_AIRLINES_FIELDS,
+  DESCRIPTION_AIRLINE_FIELDS,
+  AIRLINE_FIELDS,
+
 } = require('../constants');
 const {
+  mapAirlineFieldsFromQuery,
   mapAirlineObjectToResponse,
 } = require('../services/property-mapping');
 const {
@@ -158,6 +163,39 @@ const findAll = async (req, res, next) => {
     }
     next(e);
   }
+};
+
+
+const calculateFields = (fieldsQuery) => {
+  const fieldsArray = Array.isArray(fieldsQuery) ? fieldsQuery : fieldsQuery.split(',');
+  const mappedFields = mapAirlineFieldsFromQuery(fieldsArray);
+  return {
+    mapped: mappedFields,
+    onChain: mappedFields.map((f) => {
+      if (AIRLINE_FIELDS.indexOf(f) > -1) {
+        return f;
+      }
+      return null;
+    }).filter((f) => !!f),
+    toFlatten: mappedFields.map((f) => {
+      let firstPart = f;
+      if (f.indexOf('.') > -1) {
+        firstPart = f.substring(0, f.indexOf('.'));
+      }
+      if (DESCRIPTION_AIRLINE_FIELDS.indexOf(firstPart) > -1) {
+        return `descriptionUri.${f}`;
+      }
+      if ([
+        'ratePlansUri',
+        'availabilityUri',
+        'notificationsUri',
+        'bookingUri',
+      ].indexOf(firstPart) > -1) {
+        return f;
+      }
+      return null;
+    }).filter((f) => !!f),
+  };
 };
 
 module.exports = {

@@ -60,7 +60,7 @@ const deployFullHotel = async (offChainDataAdapter, index, hotelDescription, rat
   indexFile.bookingUri = 'https://booking.example';
   const dataUri = await offChainDataAdapter.upload(indexFile);
 
-  const registerResult = await index.registerHotel(dataUri, {
+  const registerResult = await index.registerAirline(dataUri, {
     from: accounts[0],
     gas: 6000000,
   });
