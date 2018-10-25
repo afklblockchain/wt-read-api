@@ -3,7 +3,7 @@ const Web3 = require('web3');
 const WTIndexContract = require('@afklblockchain/wt-contracts/build/contracts/WTIndex');
 const WTAirlinesIndexContract = require('@afklblockchain/wt-contracts/build/contracts/WTIndex');
 
-const provider = new Web3.providers.HttpProvider('http://localhost:8545');
+const provider = new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/7697444efe2e4751bc2f20f7f4549c36')
 const web3 = new Web3(provider);
 
 // dirty hack for web3@1.0.0 support for localhost testrpc, see
@@ -42,6 +42,12 @@ const deployAirlinesIndex = async () => {
     gas: 6000000,
   });
 };
+
+const getContractAt = async  (address) => {
+  const indexContract = getContractWithProvider(WTAirlinesIndexContract, provider);
+  const deployedContract = await indexContract.at(address);
+  return deployedContract;
+}
 
 const deployFullHotel = async (offChainDataAdapter, index, hotelDescription, ratePlans, availability) => {
   const accounts = await web3.eth.getAccounts();
@@ -82,4 +88,5 @@ module.exports = {
   deployAirlinesIndex,
   deployFullHotel,
   deployAirline,
+  getContractAt
 };

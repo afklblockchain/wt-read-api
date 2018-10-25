@@ -78,17 +78,9 @@ const flattenObject = (contents, fields) => {
   return result;
 };
 
-const resolveAirlineObject = async (airline, offChainFields, onChainFields) => {
+const resolveAirlineObject = async (airline, onChainFields) => {
   let airlineData = {};
   try {
-    if (offChainFields.length) {
-      const plainAirline = await airline.toPlainObject(offChainFields);
-      const flattenedOffChainData = flattenObject(plainAirline.dataUri.contents, offChainFields);
-      airlineData = {
-        ...flattenedOffChainData.descriptionUri,
-        ...(flattenObject(plainAirline, offChainFields)),
-      };
-    }
     for (let i = 0; i < onChainFields.length; i += 1) {
       if (airline[onChainFields[i]]) {
         airlineData[onChainFields[i]] = await airline[onChainFields[i]];
@@ -120,7 +112,7 @@ const fillAirlineList = async (path, fields, airlines, limit, startWith) => {
   let { items, nextStart } = paginate(airlines, limit, startWith, 'address');
   let rawAirlines = [];
   for (let airline of items) {
-    rawAirlines.push(resolveAirlineObject(airline, fields.toFlatten, fields.onChain));
+    rawAirlines.push(resolveAirlineObject(airline, fields.toFlatten));
   }
   const resolvedItems = await Promise.all(rawAirlines);
   let realItems = resolvedItems.filter((i) => !i.error);
@@ -152,6 +144,7 @@ const findAll = async (req, res, next) => {
 
   try {
     let airlines = await res.locals.wt.index.getAllAirlines();
+    console.log(airlines)
     const { items, errors, next } = await fillAirlineList(req.path, calculateFields(fieldsQuery), airlines, limit, startWith);
     res.status(200).json({ items, errors, next });
   } catch (e) {

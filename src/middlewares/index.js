@@ -97,8 +97,7 @@ const resolveAirline = async (req, res, next) => {
     res.locals.wt.airline = await res.locals.wt.index.getAirline(airlineAddress);
     return next();
   } catch (e) {
-    return next();
-    // return next(new Http404Error('airlineNotFound', 'Airline not found'));
+    return next(new Http404Error('airlineNotFound', 'Airline not found'));
   }
 };
 

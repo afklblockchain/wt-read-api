@@ -62,8 +62,8 @@ const mapToJSON = function (offersInXML) {
 const findAll = async (req, res, next) => {
   const { destination, origin, date } = req.query;
   try {
-    console.log('orig:' + origin + ' dest:' + destination + ' date:' + date);
-    let ndc = new NDC('https://ndc-rct.airfranceklm.com/passenger/distribmgmt/001448v01/EXT?', '3nnfesjhfupgh9dbb42yay55');
+    const baseURL = await res.locals.wt.airline._dataUri;
+    let ndc = new NDC(baseURL+'/passenger/distribmgmt/001448v01/EXT?', '3nnfesjhfupgh9dbb42yay55');
     let offers = await ndc.AirShopping(origin, destination, date);
     res.status(200).json(mapToJSON(offers));
   } catch (e) {
